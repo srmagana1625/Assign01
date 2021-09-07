@@ -107,7 +107,7 @@ IntSet IntSet::subtract(const IntSet& otherIntSet) const
 
 void IntSet::reset()
 {
-   cout << "reset() is not implemented yet..." << endl;
+   for (int j = 0; j <= used - 1; j++) data[j - 1] = data[j];
 }
 
 bool IntSet::add(int anInt)
