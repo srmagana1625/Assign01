@@ -54,12 +54,12 @@ IntSet::IntSet()
 
 int IntSet::size() const
 {
-   return used; // dummy value returned
+   return used; 
 }
 
 bool IntSet::isEmpty() const
 { 
-   return used == 0; // dummy value returned
+   return used == 0; 
 }
 
 bool IntSet::contains(int anInt) const
@@ -72,6 +72,7 @@ bool IntSet::contains(int anInt) const
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
 {
+   
    cout << "isSubsetOf() is not implemented yet..." << endl;
    return false; // dummy value returned
 }
@@ -119,8 +120,13 @@ bool IntSet::add(int anInt)
 
 bool IntSet::remove(int anInt)
 {
-   cout << "remove() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   bool found = false;
+   if (contains(anInt) == true) 
+      for (int i = 0; i < used; ++i)
+         if (data[i] == anInt)    
+            for (int j = data[i]; j <= used - 1; j++) data[j - 1] = data[j];
+         found = true;
+   return found; 
 }
 
 bool equal(const IntSet& is1, const IntSet& is2)
