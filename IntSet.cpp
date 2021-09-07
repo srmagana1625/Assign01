@@ -48,25 +48,22 @@ using namespace std;
 
 IntSet::IntSet()
 {
-   data[0]=''
-   cout << "IntSet() is has been constructed according to ourStr" << endl;
+   used = 0;
+   cout << "IntSet() is has not been implemented yet..." << endl;
 }
 
 int IntSet::size() const
 {
-   cout << "size() is not implemented yet..." << endl;
-   return len; // 
+   return used; // dummy value returned
 }
 
 bool IntSet::isEmpty() const
-{
-   cout << "isEmpty() is not implemented yet..." << endl;
-   return false; // dummy value returned
+{ 
+   return used == 0; // dummy value returned
 }
 
 bool IntSet::contains(int anInt) const
 {
-   cout << "contains() is not implemented yet..." << endl;
    return 0; // dummy value returned
 }
 

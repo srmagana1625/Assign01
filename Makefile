@@ -7,5 +7,5 @@ Assign01.o: Assign01.cpp IntSet.h
 
 cleanall:
 	@rm a1 *.o
-test:
+test: a1
 	./a1 auto < a1test.in > a1test.out
