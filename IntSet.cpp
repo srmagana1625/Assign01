@@ -64,7 +64,10 @@ bool IntSet::isEmpty() const
 
 bool IntSet::contains(int anInt) const
 {
-   return 0; // dummy value returned
+   bool found = false;
+   for (int i = 0; i < used; ++i)
+      if (data[i] == anInt) found = true;
+   return found;
 }
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
@@ -108,7 +111,11 @@ void IntSet::reset()
 
 bool IntSet::add(int anInt)
 {
-   cout << "add() is not implemented yet..." << endl;
+//     Pre: contains(anInt) ? size() <= MAX_SIZE : size() < MAX_SIZE
+//     Post: If contains(anInt) returns false, anInt has been
+//           added to the invoking IntSet as a new element and
+//           true is returned, otherwise the invoking IntSet is
+//           unchanged and false is returned.
    return false; // dummy value returned
 }
 
