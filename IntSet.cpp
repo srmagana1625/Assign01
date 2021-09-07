@@ -111,12 +111,10 @@ void IntSet::reset()
 
 bool IntSet::add(int anInt)
 {
-//     Pre: contains(anInt) ? size() <= MAX_SIZE : size() < MAX_SIZE
-//     Post: If contains(anInt) returns false, anInt has been
-//           added to the invoking IntSet as a new element and
-//           true is returned, otherwise the invoking IntSet is
-//           unchanged and false is returned.
-   return false; // dummy value returned
+   bool added = false;
+   if (contains(anInt) == false) data[used] = anInt;
+      added = true;
+   return added; 
 }
 
 bool IntSet::remove(int anInt)
