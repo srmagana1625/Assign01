@@ -49,7 +49,6 @@ using namespace std;
 IntSet::IntSet()
 {
    used = 0;
-   cout << "IntSet() is has not been implemented yet..." << endl;
 }
 
 int IntSet::size() const
@@ -115,6 +114,7 @@ bool IntSet::add(int anInt)
    bool added = false;
    if (contains(anInt) == false) data[used] = anInt;
       added = true;
+      used++;
    return added; 
 }
 
@@ -125,12 +125,16 @@ bool IntSet::remove(int anInt)
       for (int i = 0; i < used; ++i)
          if (data[i] == anInt)    
             for (int j = data[i]; j <= used - 1; j++) data[j - 1] = data[j];
-         found = true;
+            found = true;
    return found; 
 }
 
 bool equal(const IntSet& is1, const IntSet& is2)
 {
-   cout << "equal() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   bool equal = true;
+   int is1Len = is1.size();
+   if (is1Len != is2.size() ) equal = false;
+   // for (int p = 1; p<= is1Len; ++p)
+   //    if (is1.charAt(p) != is2.charAt(p) ) equal = false;
+   return equal;
 }

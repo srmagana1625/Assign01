@@ -111,6 +111,7 @@ public:
    void reset();
    bool add(int anInt);
    bool remove(int anInt);
+   int charAt(int pos) const;
 
 private:
    int data[MAX_SIZE];
