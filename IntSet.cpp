@@ -71,9 +71,9 @@ bool IntSet::contains(int anInt) const
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
 {
-   
-   cout << "isSubsetOf() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   bool subset = false;
+   if (otherIntSet.size() == 0) subset = true;
+   return subset; // dummy value returned
 }
 
 void IntSet::DumpData(ostream& out) const
@@ -88,10 +88,22 @@ void IntSet::DumpData(ostream& out) const
 
 IntSet IntSet::unionWith(const IntSet& otherIntSet) const
 {
-   cout << "unionWith() is not implemented yet..." << endl;
+   assert(size() + (otherIntSet.subtract(*this)).size() <= MAX_SIZE);
+   for (int i=0; i < size(); ++i) {
+      if (add(otherIntSet.data[i])) used++;
+   }
+   cout << "unionwith() is not implemented yet..." << endl;
    return IntSet(); // dummy IntSet object returned
 }
 
+//   IntSet intersect(const IntSet& otherIntSet) const
+//     Pre:  (none)
+//     Post: An IntSet representing the intersection of the invoking
+//           IntSet and otherIntSet is returned.
+//     Note: Equivalently (see postcondition of remove), the IntSet
+//           returned is one that initially is an exact copy of the
+//           invoking IntSet but subsequently has all of its elements
+//           that are not also elements of otherIntSet removed.
 IntSet IntSet::intersect(const IntSet& otherIntSet) const
 {
    cout << "intersect() is not implemented yet..." << endl;
@@ -120,21 +132,22 @@ bool IntSet::add(int anInt)
 
 bool IntSet::remove(int anInt)
 {
-   bool found = false;
+   bool removed = false;
    if (contains(anInt) == true) 
       for (int i = 0; i < used; ++i)
          if (data[i] == anInt)    
             for (int j = data[i]; j <= used - 1; j++) data[j - 1] = data[j];
-            found = true;
-   return found; 
+            removed = true;
+   return removed; 
 }
 
 bool equal(const IntSet& is1, const IntSet& is2)
 {
    bool equal = true;
-   int is1Len = is1.size();
-   if (is1Len != is2.size() ) equal = false;
-   // for (int p = 1; p<= is1Len; ++p)
-   //    if (is1.charAt(p) != is2.charAt(p) ) equal = false;
+   // int is1Len = is1.size();
+   // if (is1Len != is2.size() ) equal = false;
+   // for (int i = 0; i<= is1Len; ++i)
+   //    //why doesn't this work? this is how it's done in BuildDxtra ex. equal_nmf
+   //     if ( !is1.contains( is2.data[i] )) equal = false;
    return equal;
 }
