@@ -71,9 +71,11 @@ bool IntSet::contains(int anInt) const
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
 {
-   bool subset = false;
-   if (otherIntSet.size() == 0) subset = true;
-   return subset; // dummy value returned
+   if (size() == 0) return true;
+   for (int i = 0; i < used; i++) {
+      if (!otherIntSet.contains(data[i])) return false;
+   }
+   return true; 
 }
 
 void IntSet::DumpData(ostream& out) const
@@ -89,31 +91,40 @@ void IntSet::DumpData(ostream& out) const
 IntSet IntSet::unionWith(const IntSet& otherIntSet) const
 {
    assert(size() + (otherIntSet.subtract(*this)).size() <= MAX_SIZE);
-   for (int i=0; i < size(); ++i) {
-      if (add(otherIntSet.data[i])) used++;
+   IntSet result = IntSet();
+   for (int i= 0; i < used; i++) {
+      result.add(data[i]);
    }
-   cout << "unionwith() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+   for (int i= 0; i < otherIntSet.used; i++) {
+      result.add(otherIntSet.data[i]);
+   }
+   return result; 
 }
 
-//   IntSet intersect(const IntSet& otherIntSet) const
-//     Pre:  (none)
-//     Post: An IntSet representing the intersection of the invoking
-//           IntSet and otherIntSet is returned.
-//     Note: Equivalently (see postcondition of remove), the IntSet
-//           returned is one that initially is an exact copy of the
-//           invoking IntSet but subsequently has all of its elements
-//           that are not also elements of otherIntSet removed.
 IntSet IntSet::intersect(const IntSet& otherIntSet) const
 {
-   cout << "intersect() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+   IntSet result = IntSet();
+   for (int i= 0; i < otherIntSet.used; i++) {
+      // only add to result if contains(otherintset.data[i])
+      if (contains(otherIntSet.data[i])) {
+         result.add(otherIntSet.data[i]);
+      }
+   }
+   return result; 
 }
+
 
 IntSet IntSet::subtract(const IntSet& otherIntSet) const
 {
-   cout << "subtract() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+   IntSet result = IntSet();
+   for (int i= 0; i < used; i++) {
+      result.add(data[i]);
+   }
+
+   for (int i= 0; i < otherIntSet.used; i++) {
+      result.remove(otherIntSet.data[i]);
+   }
+   return result; 
 }
 
 void IntSet::reset()
@@ -124,30 +135,36 @@ void IntSet::reset()
 bool IntSet::add(int anInt)
 {
    bool added = false;
-   if (contains(anInt) == false) data[used] = anInt;
+   assert(contains(anInt) ? size() <= MAX_SIZE : size() < MAX_SIZE);
+   if (contains(anInt) == false) {
+      data[used] = anInt;
       added = true;
       used++;
+   }
    return added; 
 }
 
 bool IntSet::remove(int anInt)
 {
-   bool removed = false;
-   if (contains(anInt) == true) 
-      for (int i = 0; i < used; ++i)
-         if (data[i] == anInt)    
-            for (int j = data[i]; j <= used - 1; j++) data[j - 1] = data[j];
-            removed = true;
-   return removed; 
+   if (!contains(anInt)) {
+      return false;
+   } 
+
+   for (int i = 0; i < used; ++i) {
+      if (data[i] == anInt) {   
+         for (int j = i; j <= used; j++) {
+            data[j - 1] = data[j];
+         }
+      }
+   }
+
+   used--;
+   return true;
 }
 
-bool equal(const IntSet& is1, const IntSet& is2)
-{
-   bool equal = true;
-   // int is1Len = is1.size();
-   // if (is1Len != is2.size() ) equal = false;
-   // for (int i = 0; i<= is1Len; ++i)
-   //    //why doesn't this work? this is how it's done in BuildDxtra ex. equal_nmf
-   //     if ( !is1.contains( is2.data[i] )) equal = false;
-   return equal;
+bool equal(const IntSet& is1, const IntSet& is2) {
+   int is1Len = is1.size();
+   if (is1Len != is2.size() ) return false;
+   return (is1.isSubsetOf(is2) && is2.isSubsetOf(is1));
+
 }
